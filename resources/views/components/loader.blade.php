@@ -1,0 +1,3 @@
+<div id="loader" style="display: none">
+    Загрузка...
+</div>

@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.table--shaded input {
+    margin: 0;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table--shaded {
+    border-bottom: 2px solid #c6d5e3;
+}
+
+.table__head {
+    border-bottom: 2px solid #c6d5e3;
+    color: #7196b9;
+}
+.table--shaded .table__head {
+    background: #f7fafc;
+}
+
+.table__row:not(:last-of-type) {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.table__cell {
+    padding: 16px 12px 14px;
+}
+.table__head .table__cell {
+    padding: 10px 12px 8px;
+}
+.table--bordered .table__cell:not(:last-of-type) {
+    border-right: 1px solid #eaeaea;
+}
+.table__head .table__cell {
+    font-weight: 700;
+}
+
+.table__cell--checkbox {
+    max-width: 30px;
+    padding: 16px 0 14px 12px;
+}
+.table__head .table__cell--checkbox {
+    padding: 10px 0 8px 12px;
+}
+
+.table__cell--no-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table__cell--remainder {
+    width: 99%;
+}
+
+.table__cell--title {
+    max-width: 200px;
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.2);
+}
