@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <x-table.checkout-list name="table" :data="$table">
+                <x-table.checkout-list class="table-task" name="table" :data="$table">
                 </x-table.checkout-list>
                 <div class="p-6">
                 <x-primary-button class="mt-4"

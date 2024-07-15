@@ -9,6 +9,8 @@ const edits = document.querySelectorAll('.item_button_edit');
 const btnDeletes = document.querySelectorAll(".item_button_delete");
 const submitButton = document.getElementById('submit-button');
 const loader = document.getElementById('loader');
+const doneBtns = document.querySelectorAll('.table-task .table__cell--checkbox>input')
+
 
 //  Click button new task form
 openButtonModule.addEventListener('click', () => {
@@ -64,6 +66,33 @@ btnDeletes.forEach(del => {
                 console.log('Задача удалена успешно:', response);
                 // Например, удалить строку из таблицы
                 tr.remove();
+            })
+            .catch(error => {
+                showLoader(false);
+                // Обработка ошибок удаления
+                console.error('Ошибка при удалении задачи:', error);
+                // Возможно, показать сообщение об ошибке
+            });
+    });
+});
+
+doneBtns.forEach(done => {
+    done.addEventListener('click', () => {
+        showLoader();
+        const tr = done.parentNode.parentNode;
+        const id = done.value;
+        console.log('Done task')
+        axios.post(done.getAttribute('action'), {
+            id: id,
+            done: done.checked
+        })
+            .then(response => {
+                showLoader(false);
+                // Успешно удалено, выполните необходимые действия
+                console.log(response.data.message);
+                // Например, удалить строку из таблицы
+                console.log(done.checked)
+                tr.classList.toggle('text-done', response.data.done)
             })
             .catch(error => {
                 showLoader(false);

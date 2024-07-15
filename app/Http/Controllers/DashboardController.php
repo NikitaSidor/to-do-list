@@ -37,33 +37,9 @@ class DashboardController extends Controller
         $tbody = [];
 
         // Fetch tasks from database, ordered by date ascending
-        $tasks = Task::orderBy('date', 'asc')->get(['id', 'title', 'description', 'date']);
-
+        $tasks = Task::orderBy('date', 'asc')->get(['id', 'title', 'description', 'date', 'done']);
         // Transform tasks using TaskResource
-        $formattedTasks = TaskResource::collection($tasks)->resolve();
-
-        // Build table body rows
-        foreach ($formattedTasks as $task) {
-            $tbody[] = [
-                [
-                    'class' => "task__id",
-                    'name' => 'table__cell-id',
-                    'key' => $task['checkbox']['key']
-                ],
-                [
-                    'class' => 'table__cell--title table__cell--no-wrap task__title',
-                    'value' => $task['title']['value']
-                ],
-                [
-                    'class' => 'table__cell--remainder task__description',
-                    'value' => $task['description']['value']
-                ],
-                [
-                    'class' => 'table__cell--remainder task__date',
-                    'value' => $task['date']['value'] ? Carbon::parse($task['date']['value'])->format('d.m.Y') : null
-                ],
-            ];
-        }
+        $tbody = TaskResource::collection($tasks)->resolve();
 
         // Create CheckoutList component with table data
         $table = CheckoutList::setDataTable($thead, $tbody);

@@ -20,6 +20,8 @@ Route::name('task.')->group(function () {
         ->name('delete')->middleware(['auth', 'verified']);
     Route::post('task/show', [TaskController::class, 'show'])
         ->name('show')->middleware(['auth', 'verified']);
+    Route::post('task/done', [TaskController::class, 'updateDone'])
+        ->name('done')->middleware(['auth', 'verified']);
 });
 
 Route::middleware('auth')->group(function () {

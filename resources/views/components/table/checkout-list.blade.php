@@ -17,17 +17,19 @@
     <tbody class="table__body">
         @isset($dataTable['tbody'])
             @foreach($dataTable['tbody'] as $tr)
-                <tr class="table__row">
+                <tr class="table__row @if($tr['done'])text-done @endif">
 
-                    @foreach($tr as $td)
-                        @if(isset($td['key']) && isset($td['name']))
-                            <td @isset($td['attributes']){!! $td['attributes']  !!}@endisset class="table__cell table__cell--checkbox table__cell--no-wrap @isset($td['class']){{ $td['class'] }}@endisset">
-                                <input name="{{$td['name']}}" value="{{$td['key']}}" type="checkbox">'
-                            </td>
-                        @else
-                            <td @isset($td['attributes']){!! $td['attributes']  !!}@endisset class="table__cell @isset($td['class']){{ $td['class'] }}@endisset">
-                                {!! $td['value'] !!}
-                            </td>
+                    @foreach($tr as $key => $td)
+                        @if ($key !== 'done')
+                            @if(isset($td['key']) && isset($td['name']))
+                                <td @isset($td['attributes']){!! $td['attributes']  !!}@endisset class="table__cell table__cell--checkbox table__cell--no-wrap @isset($td['class']){{ $td['class'] }}@endisset">
+                                    <input action="{{route('task.done')}}" name="{{$td['name']}}" value="{{$td['key']}}" type="checkbox" @if($tr['done'])checked @endif>'
+                                </td>
+                            @else
+                                <td @isset($td['attributes']){!! $td['attributes']  !!}@endisset class="table__cell @isset($td['class']){{ $td['class'] }}@endisset">
+                                    {!! $td['value'] !!}
+                                </td>
+                            @endif
                         @endif
                     @endforeach
                     <td class="table__cell table__cell--remainder table__cell--edit">

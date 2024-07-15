@@ -17,6 +17,7 @@ class TaskResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'done' => $this->done,
             'checkbox' => [
                 'class' => "task__id",
                 'name' => 'table__cell-id',

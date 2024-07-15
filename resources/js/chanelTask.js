@@ -61,6 +61,14 @@ TaskChannel.bind('update-task', function(data) {
         updateTr(tr, data.task);
     }
 });
+TaskChannel.bind('done-task', function(data) {
+    if(updataId['id'] !== data.id && updataId['date'] !== data.date_update) {
+        console.log('Show update done task');
+        let tr = findTrKey(data.id);
+        tr.querySelector('input').checked = data.done
+        tr.classList.toggle('text-done', data.done)
+    }
+});
 
 TaskChannel.bind('delete-task', function(data) {
     const tr = findTrKey(data.id);
@@ -71,6 +79,7 @@ TaskChannel.bind('delete-task', function(data) {
 });
 
 function updateTr(tr, data) {
+    tr.classList.toggle('text-done', data.done);
     tr.getElementsByClassName(`${data.title.class}`)[0].textContent = data.title.value;
     tr.getElementsByClassName(`${data.description.class}`)[0].textContent = data.description.value;
     tr.getElementsByClassName(`${data.date.class}`)[0].textContent = data.date.value;

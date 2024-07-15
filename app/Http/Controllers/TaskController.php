@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\DeleteTaskEvent;
+use App\Events\DoneTaskEvent;
 use App\Events\StoreTaskEvent;
 use App\Events\UpdateTaskEvent;
 use App\Http\Requests\Task\StoreRequest;
@@ -63,7 +64,7 @@ class TaskController extends Controller
         try {
             // Update task with validated data
             $task->update($validatedData);
-            event(new UpdateTaskEvent($task, 1));
+            event(new UpdateTaskEvent($task));
             return response()->json([
                 'message' => 'Task updated successfully',
                 'id' => $task->id,
@@ -72,6 +73,42 @@ class TaskController extends Controller
             ], 200);
         } catch (\Exception $e) {
             // Handle any exceptions or errors
+            return response()->json(['error' => 'Failed to update task: ' . $e->getMessage()], 500);
+        }
+    }
+    public function updateDone(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'done' => 'required|boolean',
+        ]);
+
+        $id = $request->input('id');
+
+        // Find the record in the database
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        $done = $request->input('done'); // Получаем значение done из запроса
+
+        try {
+            // Обновляем только поле done
+            $task->done = $done;
+            $task->save();
+
+            // Отправляем событие, если необходимо
+            event(new DoneTaskEvent($task));
+
+            return response()->json([
+                'message' => 'Task updated done successfully',
+                'id' => $task->id,
+                'done' => $task->done,
+                'date_update' => $task->updated_at,
+            ], 200);
+        } catch (\Exception $e) {
+            // Обрабатываем исключения или ошибки
             return response()->json(['error' => 'Failed to update task: ' . $e->getMessage()], 500);
         }
     }
